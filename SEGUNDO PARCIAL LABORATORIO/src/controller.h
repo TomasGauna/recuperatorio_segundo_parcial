@@ -12,5 +12,7 @@ int Gauna_Controller_ListPassenger(LinkedList* pArrayListPokemons);
 int Gauna_Controller_removePokemon(LinkedList* pArrayListPokemons);
 int Gauna_Controller_FilterWater(LinkedList* pArrayListPokemons);
 int Gauna_Controller_MapFGG(LinkedList* pArrayListPokemons);
+int Gauna_Controller_MapBFG(LinkedList* pArrayListPokemons);
+int Gauna_Controller_Batallar(LinkedList* pArrayListPokemons);
 
 #endif

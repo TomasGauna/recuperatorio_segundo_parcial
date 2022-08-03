@@ -81,3 +81,36 @@ int Gauna_Controller_MapFGG(LinkedList* pArrayListPokemons)
 
 	return valido;
 }
+
+int Gauna_Controller_MapBFG(LinkedList* pArrayListPokemons)
+{
+	int valido;
+
+	if(pArrayListPokemons != NULL)
+	{
+		if(ll_map(pArrayListPokemons, Gauna_Propia_MapFilterBFG))
+		{
+			valido = Gauna_Controller_ListPassenger(pArrayListPokemons);
+		}
+	}
+
+	return valido;
+}
+
+int Gauna_Controller_Batallar(LinkedList* pArrayListPokemons)
+{
+	int contador;
+	int valido = 0;
+
+	if(pArrayListPokemons != NULL)
+	{
+		contador = ll_count(pArrayListPokemons, Gauna_Propia_FormarEquipo);
+		if(contador > 2)
+		{
+			valido = 1;
+		}
+		printf("\nTenemos %d pokemones disponibles para el combate\n", contador);
+	}
+
+	return valido;
+}

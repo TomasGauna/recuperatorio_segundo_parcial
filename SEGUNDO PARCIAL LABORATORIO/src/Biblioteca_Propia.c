@@ -7,13 +7,13 @@ int Gauna_Propia_PedirOpcion()
 	char pidoOpcion[50];
 
 	valido = getStringNumeros("< MENU DE OPCIONES >\n1.Cargar archivos pokemones\n2.Eliminar pokemon\n3.Imprimir pokemones\n4.Filtrar de tipo agua variocolor\n"
-							  "5.Mapear ataque cargado\n6.Salir\nElija una opcion: ", pidoOpcion);
+							  "5.Mapear ataque cargado\n6.Mapear ataque cargado evento Kanto\n7.Batalla\n8.Salir\nElija una opcion: ", pidoOpcion);
 	opcionElegida = atoi(pidoOpcion);
 
-	while(valido != 1 || (opcionElegida != 1 && opcionElegida != 2 && opcionElegida != 3 && opcionElegida != 4 && opcionElegida != 5 && opcionElegida != 6))
+	while(valido != 1 || (opcionElegida != 1 && opcionElegida != 2 && opcionElegida != 3 && opcionElegida != 4 && opcionElegida != 5 && opcionElegida != 6 && opcionElegida != 7 && opcionElegida != 8))
 	{
 		valido = getStringNumeros("\n|ERROR|\n< MENU DE OPCIONES >\n1.Cargar archivos pokemones\n2.Eliminar pokemon\n3.Imprimir pokemones\n4.Filtrar de tipo agua variocolor\n"
-								  "5.Mapear ataque cargado\n6.Salir\nElija una opcion correcta: ", pidoOpcion);
+								  "5.Mapear ataque cargado dia despejado\n6.Mapear ataque cargado evento Kanto\n7.Batalla\n8.Salir\nElija una opcion correcta: ", pidoOpcion);
 		opcionElegida = atoi(pidoOpcion);
 	}
 
@@ -182,4 +182,129 @@ int Gauna_Propia_CalcularValorAtaque(int valorActual, int porcentaje)
 	}
 
 	return valorFinal;
+}
+
+/*
+ * Mapear ataque cargado: Con motivo del evento Kanto, los pokemenos que
+cumplan con las siguientes características incrementaron su poder:
+Los pokemones de tipo Bug, Fire y Grass aumentarán su poder un 20%
+siempre y cuando el tamaño sea XL, un 10% si es L y sino un 5 para cualquier otro
+tamaño.
+ */
+
+int Gauna_Propia_MapFilterBFG(void* pElement)
+{
+	int valido = 1;
+	char tipo[50];
+	char tamanio[50];
+	int valorAtaque;
+	int nuevoValorAtaque;
+	Pokemon* aux = NULL;
+
+	aux = (Pokemon*) pElement;
+
+	if(Gauna_Pokemon_getTipo(aux, tipo))
+	{
+		if(strcmp(tipo, "Fire") == 0 || strcmp(tipo, "Grass") == 0 || strcmp(tipo, "Bug") == 0)
+		{
+			if(Gauna_Pokemon_getValorAtaque(aux, &valorAtaque))
+			{
+				if(Gauna_Pokemon_getTamanio(aux, tamanio))
+				{
+					if(strcmp(tamanio, "XL") == 0)
+					{
+						nuevoValorAtaque = Gauna_Propia_CalcularValorAtaque(valorAtaque, 20);
+					}
+					else
+					{
+						if(strcmp(tamanio, "L") == 0)
+						{
+							nuevoValorAtaque = Gauna_Propia_CalcularValorAtaque(valorAtaque, 10);
+						}
+						else
+						{
+							if((strcmp(tamanio, "L") != 0) && strcmp(tamanio, "XL") != 0)
+							{
+								nuevoValorAtaque = Gauna_Propia_CalcularValorAtaque(valorAtaque, 5);
+							}
+						}
+					}
+				}
+
+				if(Gauna_Pokemon_setValorAtaque(aux, nuevoValorAtaque))
+				{
+					valido = 0;
+				}
+			}
+		}
+	}
+
+	return valido;
+}
+
+/*7) Batalla pokemon: Nos hemos encontrado con el jefe del team Rocket, Giovanni. El
+malvado jugará su batalla final con Lugia, pokémon de tipo Psíquico. La única forma
+de ganarle será formando un equipo con las siguientes características: un pokémon
+de tipo Fire de tamaño XL, con ataque Lanzallamas y cuyo valor de ataque sea
+superior a 80 o de tipo Water tamaño L, con ataque hidrobomba entre superior a 80.
+Determinar cuántos pokemones cumplen con dichas características y anunciar si
+ganamos la batalla o no. Tener en cuenta que necesitamos mínimo 3 pokemones
+para vencer a este pokémon legendario.*/
+int Gauna_Propia_FormarEquipo(void* pElement)
+{
+	int valido = 0;
+	char tipo[50];
+	char tamanio[50];
+	char ataqueCargado[50];
+	int valorAtaque;
+	Pokemon* aux = NULL;
+
+	aux = (Pokemon*) pElement;
+
+	if(Gauna_Pokemon_getTipo(aux, tipo))
+	{
+		if(strcmp(tipo, "Fire") == 0)
+		{
+			Gauna_Pokemon_getTamanio(aux, tamanio);
+
+			if(strcmp(tamanio, "XL") == 0)
+			{
+				Gauna_Pokemon_getAtaqueCargado(aux, ataqueCargado);
+
+				if(strcmp(ataqueCargado, "Lanzallamas") == 0)
+				{
+					Gauna_Pokemon_getValorAtaque(aux, &valorAtaque);
+
+					if(valorAtaque > 80)
+					{
+						valido = 1;
+					}
+				}
+			}
+		}
+		else
+		{
+			if(strcmp(tipo, "Water") == 0)
+			{
+				Gauna_Pokemon_getTamanio(aux, tamanio);
+
+				if(strcmp(tamanio, "L") == 0)
+				{
+					Gauna_Pokemon_getAtaqueCargado(aux, ataqueCargado);
+
+					if(strcmp(ataqueCargado, "Hidrobomba") == 0)
+					{
+						Gauna_Pokemon_getValorAtaque(aux, &valorAtaque);
+
+						if(valorAtaque > 80)
+						{
+							valido = 1;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return valido;
 }

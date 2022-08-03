@@ -667,3 +667,31 @@ int ll_map(LinkedList* this, int (*pFunc)(void*))
 
 	return valido;
 }
+
+/*La funcion “ll_count” recibirá la lista y una función criterio “fn”. La función “fn” deberá devolver 1 en
+caso de que el elemento recibido cumpla con el/los criterios especificados. Al finalizar la iteración, la
+función count retornará la cantidad de elementos que pasaron el criterio.*/
+
+int ll_count(LinkedList* this, int (*pFunc)(void*))
+{
+	int contador = 0;
+	int len;
+	void* pElement;
+
+	if(this != NULL)
+	{
+		len = ll_len(this);
+
+		for(int i = 0; i < len; i++)
+		{
+			pElement = ll_get(this, i);
+
+			if(pFunc(pElement))
+			{
+				contador++;
+			}
+		}
+	}
+
+	return contador;
+}

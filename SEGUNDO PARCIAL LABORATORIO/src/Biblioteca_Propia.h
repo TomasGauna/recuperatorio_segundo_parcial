@@ -52,4 +52,16 @@ int Gauna_Propia_MapFilterFGG(void* pElement);
 /// @return nuevo valor despues del calculo
 int Gauna_Propia_CalcularValorAtaque(int valorActual, int porcentaje);
 
+/// @brief filtra y mapea pokemones del tipo Bug, Fire y Grass
+///
+/// @param pElement elemento recibido de la lista de pokemones
+/// @return [1] si entra en el criterio y se pudo setear el nuevo valor de ataque/
+/// [0] si no pertenece al criterio o no se puso setear el valor
+int Gauna_Propia_MapFilterBFG(void* pElement);
+
+/// @brief Filtra un equipo segun el criterio
+///
+/// @param pElement elemento recibido de la lista de pokemones
+/// @return [1] si entra en el criterio [0] si no pertenece al criterio
+int Gauna_Propia_FormarEquipo(void* pElement);
 #endif

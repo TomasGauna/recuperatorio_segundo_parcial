@@ -100,8 +100,44 @@ int main(void)
 					printf("\n|ERROR|\nSe debe cargar la lista de pokemones primero\n");
 				}
 			break;
+
+			case 6:
+				if(flagIn)
+				{
+					if(Gauna_Controller_MapBFG(listaPokemones))
+					{
+						printf("\nMapeado exitoso\n");
+					}
+					else
+					{
+						printf("\nERROR...\n");
+					}
+				}
+				else
+				{
+					printf("\n|ERROR|\nSe debe cargar la lista de pokemones primero\n");
+				}
+			break;
+
+			case 7:
+				if(flagIn)
+				{
+					if(Gauna_Controller_Batallar(listaPokemones))
+					{
+						printf("\nHEMOS GANADO LA BATALLA!!\n");
+					}
+					else
+					{
+						printf("\nDERROTADOS!\n");
+					}
+				}
+				else
+				{
+					printf("\n|ERROR|\nSe debe cargar la lista de pokemones primero\n");
+				}
+			break;
 		}
-	}while(opcionElegida != 6);
+	}while(opcionElegida != 8);
 
 	return EXIT_SUCCESS;
 }
