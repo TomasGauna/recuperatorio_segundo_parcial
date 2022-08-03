@@ -223,10 +223,7 @@ int Gauna_Propia_MapFilterBFG(void* pElement)
 						}
 						else
 						{
-							if((strcmp(tamanio, "L") != 0) && strcmp(tamanio, "XL") != 0)
-							{
-								nuevoValorAtaque = Gauna_Propia_CalcularValorAtaque(valorAtaque, 5);
-							}
+							nuevoValorAtaque = Gauna_Propia_CalcularValorAtaque(valorAtaque, 5);
 						}
 					}
 				}
